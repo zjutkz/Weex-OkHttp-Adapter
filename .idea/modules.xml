@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Weex-OkHttp-Adapter.iml" filepath="$PROJECT_DIR$/Weex-OkHttp-Adapter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okhttpadapter/okhttpadapter.iml" filepath="$PROJECT_DIR$/okhttpadapter/okhttpadapter.iml" />
+    </modules>
+  </component>
+</project>
