@@ -27,7 +27,6 @@ public class OkHttpAdapter implements IWXHttpAdapter{
 
     private static final String METHOD_GET = "GET";
     private static final String METHOD_POST = "POST";
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     @Override
     public void sendRequest(WXRequest request, final OnHttpListener listener) {
@@ -53,7 +52,16 @@ public class OkHttpAdapter implements IWXHttpAdapter{
             }
         };
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Response originalResponse = chain.proceed(chain.request());
+                return originalResponse.newBuilder()
+                        .body(new IncrementalResponseBody(originalResponse.body(), responseListener))
+                        .build();
+            }
+        }).build();
+
         if(METHOD_GET.equalsIgnoreCase(request.method)){
             Request okHttpRequest = new Request.Builder().url(request.url).build();
             client.newCall(okHttpRequest).enqueue(new Callback() {
@@ -75,21 +83,9 @@ public class OkHttpAdapter implements IWXHttpAdapter{
                 }
             });
         }else if(METHOD_POST.equalsIgnoreCase(request.method)){
-            client.networkInterceptors().add(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    //拦截
-                    Response originalResponse = chain.proceed(chain.request());
-                    //包装响应体并返回
-                    return originalResponse.newBuilder()
-                            .body(new IncrementalResponseBody(originalResponse.body(), responseListener))
-                            .build();
-                }
-            });
-
             Request okHttpRequest = new Request.Builder()
                     .url(request.url)
-                    .post(new IncrementalRequestBody(RequestBody.create(JSON,request.body),requestListener))
+                    .post(new IncrementalRequestBody(RequestBody.create(MediaType.parse(request.body),request.body),requestListener))
                     .build();
 
             client.newCall(okHttpRequest).enqueue(new Callback() {
