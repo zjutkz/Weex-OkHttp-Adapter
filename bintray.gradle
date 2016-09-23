@@ -1,0 +1,97 @@
+group = "com.zjutkz"
+version = "1.0.0"
+project.archivesBaseName = "Weex-OkHttp-Adapter"
+
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += configurations.compile
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+javadoc {
+    options{
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        author true
+        version true
+        links "http://docs.oracle.com/javase/7/docs/api"
+        title "Weex-OkHttp-Adapter"
+    }
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "zjutkz"
+            name "zjutkz"
+            email "suuuperwayne@gmail.com"
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId "Weex-OkHttp-Adapter"
+
+            pom{
+                packaging 'aar'
+            }
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', "An Weex network Adapter based on OkHttp")
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('gradle.properties').newDataInputStream())
+
+    user = properties.getProperty('BINTRAY_USER');
+    key = properties.getProperty('BINTRAY_KEY');
+
+
+
+    configurations = ['archives']
+    publications = ['mavenJava']
+    publish = true
+
+    pkg {
+        repo = 'maven'
+        name = "Weex-OkHttp-Adapter"
+        desc = "An Weex network Adapter based on OkHttp"
+        websiteUrl = "https://github.com/zjutkz/Weex-OkHttp-Adapter"
+        issueTrackerUrl = "https://github.com/zjutkz/Weex-OkHttp-Adapter/issues"
+        vcsUrl = "https://github.com/zjutkz/Weex-OkHttp-Adapter"
+        licenses = ['Apache-2.0']
+        publicDownloadNumbers = true
+    }
+}

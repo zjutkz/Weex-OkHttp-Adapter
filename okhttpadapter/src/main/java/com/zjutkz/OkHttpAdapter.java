@@ -39,7 +39,7 @@ public class OkHttpAdapter implements IWXHttpAdapter{
             @Override
             public void onRequest(long consumed, long total, boolean done) {
                 if(Assert.checkNull(listener)){
-                    listener.onHttpUploadProgress((int) (consumed / total));
+                    listener.onHttpUploadProgress((int) (consumed));
                 }
             }
         };
@@ -48,7 +48,7 @@ public class OkHttpAdapter implements IWXHttpAdapter{
             @Override
             public void onResponse(long consumed, long total, boolean done) {
                 if(Assert.checkNull(listener)){
-                    listener.onHttpResponseProgress((int) (consumed / total));
+                    listener.onHttpResponseProgress((int) (consumed));
                 }
             }
         };

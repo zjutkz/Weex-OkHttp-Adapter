@@ -25,3 +25,4 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.taobao.android:weex_sdk:0.7.0'
 }
+
