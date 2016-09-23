@@ -15,14 +15,14 @@ import okio.Sink;
 /**
  * Created by kangzhe on 16/9/22.
  */
-public class a extends RequestBody{
+public class IncrementaRequestBody extends RequestBody{
 
     private RequestBody realBody;
     private RequestListener requestListener;
 
     private BufferedSink bufferedSink;
 
-    public a(RequestBody realBody, RequestListener requestListener){
+    public IncrementaRequestBody(RequestBody realBody, RequestListener requestListener){
         this.realBody = realBody;
         this.requestListener = requestListener;
     }

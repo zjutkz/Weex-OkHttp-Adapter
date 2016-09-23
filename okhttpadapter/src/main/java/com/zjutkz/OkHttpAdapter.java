@@ -3,7 +3,7 @@ package com.zjutkz;
 import com.taobao.weex.adapter.IWXHttpAdapter;
 import com.taobao.weex.common.WXRequest;
 import com.taobao.weex.common.WXResponse;
-import com.zjutkz.progress.a;
+import com.zjutkz.progress.IncrementaRequestBody;
 import com.zjutkz.progress.IncrementalResponseBody;
 import com.zjutkz.progress.listener.RequestListener;
 import com.zjutkz.progress.listener.ResponseListener;
@@ -85,7 +85,7 @@ public class OkHttpAdapter implements IWXHttpAdapter{
         }else if(METHOD_POST.equalsIgnoreCase(request.method)){
             Request okHttpRequest = new Request.Builder()
                     .url(request.url)
-                    .post(new a(RequestBody.create(MediaType.parse(request.body),request.body),requestListener))
+                    .post(new IncrementaRequestBody(RequestBody.create(MediaType.parse(request.body),request.body),requestListener))
                     .build();
 
             client.newCall(okHttpRequest).enqueue(new Callback() {
