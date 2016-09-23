@@ -6,7 +6,20 @@ A network adapter based on [OkHttp](https://github.com/square/okhttp) can be put
 
 #Download
 
-I'm going to push to maven A.S.A.P.
+Please use JitPack.
+
+```groovy
+allprojects {
+   repositories {
+      ...
+      maven { url "https://jitpack.io" }
+   }
+}
+```
+
+```groovy
+compile 'com.github.zjutkz:Weex-OkHttp-Adapter:-SNAPSHOT'
+```
 
 
 
