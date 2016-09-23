@@ -18,7 +18,7 @@ allprojects {
 ```
 
 ```groovy
-compile 'com.github.zjutkz:Weex-OkHttp-Adapter:-SNAPSHOT'
+compile 'com.github.zjutkz:Weex-OkHttp-Adapter:1.1'
 ```
 
 
