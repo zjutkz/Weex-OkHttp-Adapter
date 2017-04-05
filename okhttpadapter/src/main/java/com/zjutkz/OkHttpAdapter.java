@@ -68,21 +68,25 @@ public class OkHttpAdapter implements IWXHttpAdapter {
         Request okHttpRequest;
         if (METHOD_GET.equalsIgnoreCase(request.method)) {
             okHttpRequest = new Request.Builder()
+                    .headers(AddHeaders(request))
                     .url(request.url)
                     .get()
                     .build();
         } else if (METHOD_POST.equalsIgnoreCase(request.method)) {
             okHttpRequest = new Request.Builder()
+                    .headers(AddHeaders(request))
                     .url(request.url)
                     .post(new IncrementaRequestBody(RequestBody.create(MediaType.parse(request.body), request.body), requestListener))
                     .build();
         } else if (!TextUtils.isEmpty(request.method)) {
             okHttpRequest = new Request.Builder()
+                    .headers(AddHeaders(request))
                     .url(request.url)
                     .method(request.method, new IncrementaRequestBody(RequestBody.create(MediaType.parse(request.body), request.body), requestListener))
                     .build();
         } else {
             okHttpRequest = new Request.Builder()
+                    .headers(AddHeaders(request))
                     .get()
                     .url(request.url)
                     .build();
@@ -92,6 +96,17 @@ public class OkHttpAdapter implements IWXHttpAdapter {
 
     private boolean requestSuccess(int statusCode) {
         return statusCode >= 200 && statusCode <= 299;
+    }
+
+    private Headers AddHeaders(WXRequest request) {
+        Headers.Builder builder = new Headers.Builder();
+        if (request.paramMap != null) {
+            Set<String> keySets = request.paramMap.keySet();
+            for (String key : keySets) {
+                builder.add(key, request.paramMap.get(key));
+            }
+        }
+        return builder.build();
     }
 
     private Callback CommonCallBack(final OnHttpListener listener) {
