@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.zjutkz'
 
 android {
     compileSdkVersion 23
@@ -26,5 +28,3 @@ dependencies {
     compile 'com.taobao.android:weex_sdk:0.7.0'
 }
 
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.zjutkz'
